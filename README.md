@@ -76,3 +76,6 @@ Feel free to use, modify, and contribute — with credit.
 ## 💌 Contribute or Collaborate?
 
 Want to contribute or collaborate? Open an issue or DM me — I’m building the future of gaming and looking for passionate minds! ✨
+
+![GitHub repo size](https://img.shields.io/github/repo-size/sheik-aicoder/Ai-game)
+![GitHub last commit](https://img.shields.io/github/last-commit/sheik-aicoder/Ai-game)
