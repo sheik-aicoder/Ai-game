@@ -1,0 +1,29 @@
+# Unreal Engine build files
+Binaries/
+Build/
+DerivedDataCache/
+Intermediate/
+Saved/
+.vscode/
+
+# Temp & cache files
+*.suo
+*.user
+*.log
+*.tmp
+*.temp
+*.bak
+
+# Visual Studio
+.vs/
+*.sln
+*.VC.db
+*.opensdf
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Plugin auto-builds
+Plugins/*/Intermediate/
+Plugins/*/Binaries/
