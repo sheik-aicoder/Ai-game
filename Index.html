@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Futuristic 3D City</title>
+  <style>
+    body { margin: 0; overflow: hidden; background: black; }
+    canvas { display: block; }
+  </style>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/three@0.156.1/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.156.1/examples/js/controls/OrbitControls.js"></script>
+
+<script>
+  // Scene setup
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x000010);
+
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 2000);
+  camera.position.set(50, 50, 100);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(renderer.domElement);
+
+  const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0xaaaaaa, 0.6);
+  scene.add(ambientLight);
+
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  dirLight.position.set(50, 100, -50);
+  scene.add(dirLight);
+
+  // Ground
+  const groundGeo = new THREE.PlaneGeometry(500, 500);
+  const groundMat = new THREE.MeshStandardMaterial({ color: 0x111111, metalness: 0.3, roughness: 0.8 });
+  const ground = new THREE.Mesh(groundGeo, groundMat);
+  ground.rotation.x = -Math.PI / 2;
+  scene.add(ground);
+
+  // Create futuristic buildings
+  function createBuilding(x, z, height) {
+    const geo = new THREE.BoxGeometry(10, height, 10);
+    const mat = new THREE.MeshStandardMaterial({ 
+      color: new THREE.Color(Math.random(), Math.random(), Math.random()), 
+      emissive: 0x111111, 
+      metalness: 0.8, 
+      roughness: 0.4 
+    });
+    const mesh = new THREE.Mesh(geo, mat);
+    mesh.position.set(x, height / 2, z);
+    scene.add(mesh);
+  }
+
+  for (let i = -200; i <= 200; i += 20) {
+    for (let j = -200; j <= 200; j += 20) {
+      if (Math.random() > 0.3) {
+        createBuilding(i, j, Math.random() * 50 + 10);
+      }
+    }
+  }
+
+  // Roads
+  const roadGeo = new THREE.PlaneGeometry(500, 5);
+  const roadMat = new THREE.MeshStandardMaterial({ color: 0x222222, roughness: 1 });
+  const mainRoadX = new THREE.Mesh(roadGeo, roadMat);
+  mainRoadX.rotation.x = -Math.PI / 2;
+  scene.add(mainRoadX);
+
+  const roadGeo2 = new THREE.PlaneGeometry(5, 500);
+  const mainRoadZ = new THREE.Mesh(roadGeo2, roadMat);
+  mainRoadZ.rotation.x = -Math.PI / 2;
+  scene.add(mainRoadZ);
+
+  // Spaceships
+  const shipGeo = new THREE.ConeGeometry(2, 6, 8);
+  const shipMat = new THREE.MeshStandardMaterial({ color: 0xff0000, metalness: 0.9, roughness: 0.2 });
+  const spaceship = new THREE.Mesh(shipGeo, shipMat);
+  spaceship.position.set(0, 50, 0);
+  scene.add(spaceship);
+
+  // Animation loop
+  function animate() {
+    requestAnimationFrame(animate);
+    spaceship.position.x = Math.sin(Date.now() * 0.001) * 80;
+    spaceship.position.z = Math.cos(Date.now() * 0.001) * 80;
+    spaceship.rotation.y += 0.02;
+    controls.update();
+    renderer.render(scene, camera);
+  }
+
+  animate();
+
+  window.addEventListener("resize", () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+</script>
+</body>
+</html>
